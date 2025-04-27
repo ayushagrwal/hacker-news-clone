@@ -1,0 +1,62 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.log
+
+# Database & Prisma
+prisma/dev.db
+prisma/dev.db-journal
+# prisma/migrations/
+prisma/.env
+.prisma/
+
+# Build output
+build/
+dist/
+
+# React files
+.DS_Store
+*.cache
+.vscode/
+*.swp
+*.swo
+.idea/
+
+# Testing
+coverage/
+*.test.js
+*.spec.js
+jest.config.js
+cypress/
+cypress.json
+cypress.env.json
+cypress/screenshots/
+cypress/videos/
+
+# IDE / Editor settings
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.bak
+*.tmp
