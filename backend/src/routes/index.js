@@ -1,3 +1,5 @@
 module.exports = {
-    authRoutes: require('./authRoutes')
+    authRoutes: require('./authRoutes'),
+    postRoutes: require('./postRoutes'),
+    commentRoutes: require('./commentRoutes')
 }

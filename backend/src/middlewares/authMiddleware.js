@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  // console.log("Auth Middleware Triggered");
+  // console.log("Auth Middleware");
 
   const token = req.header("Authorization");
   // console.log("Received Token:", token);
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // console.log("Decoded Token:", decoded);
-
+    
     req.user = decoded;
     next();
   } catch (error) {
