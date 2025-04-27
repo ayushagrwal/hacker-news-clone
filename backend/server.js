@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const { authRoutes, formRoutes } = require('./routes');
-const { errorHandler } = require('./middlewares/errorHandler');
+const { authRoutes } = require('./src/routes');
+const { errorHandler } = require('./src/middlewares/errorHandler');
 
 dotenv.config();
 const app = express();
