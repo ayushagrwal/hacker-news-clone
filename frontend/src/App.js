@@ -4,6 +4,9 @@ import PrivateRoutes from './utils/PrivateRoutes';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import CreatePost from './pages/CreatePost';
+import Post from './pages/Post';
+import User from './pages/User';
 
 function App() {
   return (
@@ -15,7 +18,9 @@ function App() {
 
         {/* Protect the entire Layout under PrivateRoutes */}
         <Route element={<PrivateRoutes />}>
-
+          <Route path="/submit" element={<CreatePost />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/user/:id" element={<User />} />
         </Route>
       </Routes>
   </Router>
