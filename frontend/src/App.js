@@ -7,6 +7,11 @@ import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
 import Post from './pages/Post';
 import User from './pages/User';
+import ReplyComment from './pages/ReplyComment';
+import EditComment from './pages/EditComment';
+import DeleteComment from './pages/DeleteComment';
+import EditPost from './pages/EditPost';
+import DeletePost from './pages/DeletePost';
 
 function App() {
   return (
@@ -20,7 +25,12 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/submit" element={<CreatePost />} />
           <Route path="/post/:id" element={<Post />} />
+          <Route path="/reply" element={<ReplyComment />} />
           <Route path="/user/:id" element={<User />} />
+          <Route path="/edit-comment/:id" element={<EditComment />} />
+          <Route path="/delete-comment/:id" element={<DeleteComment />} />
+          <Route path="/edit-post/:id" element={<EditPost />} />
+          <Route path="/delete-post/:id" element={<DeletePost />} />
         </Route>
       </Routes>
   </Router>

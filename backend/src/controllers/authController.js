@@ -41,3 +41,33 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getUserById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        const user = await prisma.user.findUnique({
+            where: { id: parseInt(id) },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+                _count: {
+                    select: {
+                        posts: true,
+                        comments: true
+                    }
+                }
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json(user);
+    } catch (err) {
+        next(err);
+    }
+};

@@ -54,10 +54,66 @@ exports.createComment = async (req, res, next) => {
 };
 
 // Get comments for a post
+// exports.getPostComments = async (req, res, next) => {
+//     try {
+//         const { postId } = req.params;
+        
+//         // Verify the post exists
+//         const post = await prisma.post.findUnique({
+//             where: { id: parseInt(postId) }
+//         });
+
+//         if (!post) {
+//             return res.status(404).json({ error: "Post not found" });
+//         }
+
+//         // Get top-level comments (parentId is null)
+//         const comments = await prisma.comment.findMany({
+//             where: { 
+//                 postId: parseInt(postId),
+//                 parentId: null
+//             },
+//             include: {
+//                 author: {
+//                     select: {
+//                         id: true,
+//                         name: true
+//                     }
+//                 },
+//                 children: {
+//                     include: {
+//                         author: {
+//                             select: {
+//                                 id: true,
+//                                 name: true
+//                             }
+//                         },
+//                         children: {
+//                             include: {
+//                                 author: {
+//                                     select: {
+//                                         id: true,
+//                                         name: true
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             },
+//             orderBy: { createdAt: 'desc' }
+//         });
+
+//         res.json(comments);
+//     } catch (err) {
+//         next(err);
+//     }
+// };
+
 exports.getPostComments = async (req, res, next) => {
     try {
         const { postId } = req.params;
-        
+
         // Verify the post exists
         const post = await prisma.post.findUnique({
             where: { id: parseInt(postId) }
@@ -67,48 +123,44 @@ exports.getPostComments = async (req, res, next) => {
             return res.status(404).json({ error: "Post not found" });
         }
 
-        // Get top-level comments (parentId is null)
+        // Fetch all comments related to the post
         const comments = await prisma.comment.findMany({
-            where: { 
-                postId: parseInt(postId),
-                parentId: null
-            },
+            where: { postId: parseInt(postId) },
             include: {
                 author: {
                     select: {
                         id: true,
                         name: true
                     }
-                },
-                children: {
-                    include: {
-                        author: {
-                            select: {
-                                id: true,
-                                name: true
-                            }
-                        },
-                        children: {
-                            include: {
-                                author: {
-                                    select: {
-                                        id: true,
-                                        name: true
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             },
-            orderBy: { createdAt: 'desc' }
+            orderBy: { createdAt: 'asc' } // so parents come before children
         });
 
-        res.json(comments);
+        // Build a map of comments by id
+        const commentMap = {};
+        comments.forEach(comment => {
+            comment.children = [];
+            commentMap[comment.id] = comment;
+        });
+
+        const rootComments = [];
+
+        // Construct the tree
+        comments.forEach(comment => {
+            if (comment.parentId === null) {
+                rootComments.push(comment);
+            } else if (commentMap[comment.parentId]) {
+                commentMap[comment.parentId].children.push(comment);
+            }
+        });
+
+        res.json(rootComments);
     } catch (err) {
         next(err);
     }
 };
+
 
 // Update a comment
 exports.updateComment = async (req, res, next) => {

@@ -71,6 +71,31 @@ POST /api/auth/login
 }
 ```
 
+### Get User Details by ID
+
+```
+GET /api/auth/user/:id
+```
+
+**Authentication Required**
+
+**URL Parameters:**
+- `id`: integer (required)
+
+**Response:**
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "email": "string",
+  "createdAt": "datetime",
+  "_count": {
+    "posts": "integer",
+    "comments": "integer"
+  }
+}
+```
+
 ---
 
 ## Post Endpoints
@@ -304,6 +329,24 @@ Note: `value` must be either 1 (upvote) or -1 (downvote).
 ```json
 {
   "points": "integer"
+}
+```
+
+### Check User Vote Status
+
+```
+GET /api/posts/:id/check-vote
+```
+
+**Authentication Required**
+
+**URL Parameters:**
+- `id`: integer (required)
+
+**Response:**
+```json
+{
+  "hasVoted": "boolean"
 }
 ```
 

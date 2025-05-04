@@ -99,28 +99,6 @@ exports.getPostById = async (req, res, next) => {
                         name: true
                     }
                 },
-                comments: {
-                    where: { parentId: null },
-                    include: {
-                        author: {
-                            select: {
-                                id: true,
-                                name: true
-                            }
-                        },
-                        children: {
-                            include: {
-                                author: {
-                                    select: {
-                                        id: true,
-                                        name: true
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    orderBy: { createdAt: 'desc' }
-                },
                 _count: {
                     select: {
                         comments: true
@@ -340,6 +318,28 @@ exports.votePost = async (req, res, next) => {
         });
 
         res.json({ points: updatedPost.points });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// Check if user has voted on a post
+exports.checkUserVoted = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        
+        // Check if user has already voted on this post
+        const existingVote = await prisma.vote.findUnique({
+            where: {
+                userId_postId: {
+                    userId,
+                    postId: parseInt(id)
+                }
+            }
+        });
+
+        return res.json({ hasVoted: !!existingVote });
     } catch (err) {
         next(err);
     }

@@ -13,5 +13,6 @@ router.post("/", authMiddleware, postController.createPost);
 router.put("/:id", authMiddleware, postController.updatePost);
 router.delete("/:id", authMiddleware, postController.deletePost);
 router.post("/:id/vote", authMiddleware, postController.votePost);
+router.get("/:id/check-vote", authMiddleware, postController.checkUserVoted);
 
 module.exports = router; 
