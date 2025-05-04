@@ -1,3 +1,7 @@
+/**
+ * Main Express server configuration file
+ * Sets up the backend server with all necessary middleware and routes
+ */
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -5,6 +9,7 @@ const dotenv = require("dotenv");
 const { authRoutes, postRoutes, commentRoutes } = require('./src/routes');
 const { errorHandler } = require('./src/middlewares/errorHandler');
 
+// Load environment variables from .env file
 dotenv.config();
 const app = express();
 
@@ -18,18 +23,20 @@ const corsOptions = {
     maxAge: 600 // Cache preflight requests for 10 minutes
 };
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Apply middleware
+app.use(cors(corsOptions));  // Enable CORS with the specified options
+app.use(express.json());     // Parse JSON request bodies
+app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded request bodies
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/comments", commentRoutes);
+// Register API routes
+app.use("/api/auth", authRoutes);      // Authentication routes (login, register, etc.)
+app.use("/api/posts", postRoutes);     // Post-related routes (create, read, update, delete)
+app.use("/api/comments", commentRoutes); // Comment-related routes
 
-// Error handling middleware
+// Global error handling middleware - catches and formats all errors
 app.use(errorHandler);
 
+// Start the server
 app.listen(process.env.PORT, () => {
     console.log(`Successfully started the server on port : ${process.env.PORT}`);
 });

@@ -1,3 +1,7 @@
+/**
+ * Main App component that defines all application routes
+ * Handles public and private routing with authentication protection
+ */
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoutes from './utils/PrivateRoutes';
@@ -17,11 +21,12 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Public routes accessible to all users */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protect the entire Layout under PrivateRoutes */}
+        {/* Protected routes requiring authentication */}
         <Route element={<PrivateRoutes />}>
           <Route path="/submit" element={<CreatePost />} />
           <Route path="/post/:id" element={<Post />} />

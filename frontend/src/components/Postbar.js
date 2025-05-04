@@ -16,6 +16,7 @@ export default function Postbar({
 }) {
   const navigate = useNavigate();
   const authUserId = useSelector((state) => state.auth.id);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const [isVoted, setIsVoted] = useState(false);
 
@@ -30,16 +31,22 @@ export default function Postbar({
 
   const handleVote = async (type) => {
     try {
-      const res = await votePost({ value: 1 }, id);
-      setIsVoted(type);
+      if(isLoggedIn){
+        const res = await votePost({ value: 1 }, id);
+        setIsVoted(type);
+      } else {
+        navigate('/login')
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchVoted();
-  }, []);
+    if(isLoggedIn){
+      fetchVoted();
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className="flex gap-2 ">

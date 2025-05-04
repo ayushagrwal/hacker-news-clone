@@ -40,7 +40,7 @@ export default function Register() {
 
   return (
     <div className="max-w-md mx-auto mt-16 text-center p-6 shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
+      <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -130,7 +130,7 @@ export default function Register() {
               className="w-full bg-[#FF6600] hover:bg-red-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
               disabled={isSubmitting || loading}
             >
-              {loading ? "Loading..." : "Register"}
+              {loading ? "Loading..." : "Sign Up"}
             </button>
           </Form>
         )}
