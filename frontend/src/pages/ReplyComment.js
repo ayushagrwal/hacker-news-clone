@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import CommentBar from "../components/CommentBar";
 import CustomTextarea from "../components/CustomTextArea";
@@ -8,6 +8,7 @@ import RenderComment from "../components/RenderComment";
 
 export default function ReplyComment() {
   const location = useLocation();
+  const navigate = useNavigate();
   const data = location.state || {};
   const { id, author, createdAt, text, post, pageType } = data;
   const [reply, setReply] = useState("");
@@ -36,6 +37,13 @@ export default function ReplyComment() {
       window.location.reload();
     } catch (error) {
       console.log(error);
+      if(error.status === 401){
+        navigate("/login");
+      }
+      if(error.status === 429){
+        // alert("You have created too many posts/comments. Please try again later.");
+        navigate("/error-429");
+      }
     }
   };
 

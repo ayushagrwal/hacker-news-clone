@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Postbar from "../components/Postbar";
 import { getPostById, getPostComments, createComment } from "../apis/apiCall";
@@ -8,6 +8,7 @@ import RenderComment from "../components/RenderComment";
 
 export default function Post() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
@@ -44,6 +45,13 @@ export default function Post() {
       window.location.reload();
     } catch (error) {
       console.log(error);
+      if(error.status === 401){
+        navigate("/login");
+      }
+      if(error.status === 429){
+        // alert("You have created too many posts/comments. Please try again later.");
+        navigate("/error-429");
+      }
     }
   };
 

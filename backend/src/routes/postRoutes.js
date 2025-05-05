@@ -7,6 +7,7 @@ const express = require("express");
 const router = express.Router();
 const { postController } = require("../controllers");
 const authMiddleware = require("../middlewares/authMiddleware");
+const { rateLimiters } = require("../middlewares");
 
 // Public routes - accessible without authentication
 // Get all posts with pagination
@@ -18,7 +19,7 @@ router.get("/:id", postController.getPostById);
 
 // Protected routes requiring authentication
 // Create a new post
-router.post("/", authMiddleware, postController.createPost);
+router.post("/", authMiddleware, rateLimiters.createContentLimiter, postController.createPost);
 // Update an existing post (only by author)
 router.put("/:id", authMiddleware, postController.updatePost);
 // Delete a post (only by author)

@@ -16,6 +16,7 @@ import EditComment from './pages/EditComment';
 import DeleteComment from './pages/DeleteComment';
 import EditPost from './pages/EditPost';
 import DeletePost from './pages/DeletePost';
+import Error429 from './pages/Error429';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/delete-comment/:id" element={<DeleteComment />} />
           <Route path="/edit-post/:id" element={<EditPost />} />
           <Route path="/delete-post/:id" element={<DeletePost />} />
+          <Route path="/error-429" element={<Error429 />} />
         </Route>
       </Routes>
   </Router>

@@ -56,6 +56,8 @@ export default function Navbar({ type }) {
             ? "Edit"
             : type === "user"
             ? "User Details"
+            : type === "error"
+            ? "Error"
             : "Hacker News"}
         </div>
 

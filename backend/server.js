@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const { authRoutes, postRoutes, commentRoutes } = require('./src/routes');
 const { errorHandler } = require('./src/middlewares/errorHandler');
+const { rateLimiters } = require('./src/middlewares');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,7 +16,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -27,6 +28,9 @@ const corsOptions = {
 app.use(cors(corsOptions));  // Enable CORS with the specified options
 app.use(express.json());     // Parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true }));  // Parse URL-encoded request bodies
+
+// Apply global rate limiter to all routes
+// app.use(rateLimiters.apiLimiter);
 
 // Register API routes
 app.use("/api/auth", authRoutes);      // Authentication routes (login, register, etc.)
