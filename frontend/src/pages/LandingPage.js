@@ -50,7 +50,7 @@ export default function LandingPage() {
         <div className="bg-[#F6F6EF] h-auto p-2 flex flex-col gap-1">
           {posts?.map((post, index) => (
             <div className="flex gap-2" key={index}>
-              <div className="text-gray-500">{index + 1}.</div>
+              <div className="text-gray-500">{((currentPage-1)*limit) + index + 1}.</div>
               <Postbar
                 id={post?.id}
                 title={post?.title}
